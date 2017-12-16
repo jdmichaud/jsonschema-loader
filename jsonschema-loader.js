@@ -2,23 +2,23 @@
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author jean.daniel.michaud@gmail.com
 */
-var fs = require('fs');
-var loaderUtils = require('loader-utils');
-var schemaCompiler = require('json-schema-to-typescript');
+const fs = require('fs');
+const loaderUtils = require('loader-utils');
+const schemaCompiler = require('json-schema-to-typescript');
 
-module.exports = function (content) {
-  var callback = this.async();
-  content = content.toString('utf-8');
+module.exports = function loader(content) {
+  const callback = this.async();
+  const contentStr = content.toString('utf-8');
   if (this.cacheable) this.cacheable();
 
   // Convert schema to JS object
-  let schema = JSON.parse(content);
+  const schema = JSON.parse(contentStr);
   // compile from file
   schemaCompiler.compile(schema)
     .then(ts => callback(null, ts))
-    .catch(err => {
-      console.error('exception:', e);
-      callback(e);
+    .catch((err) => {
+      console.error('exception:', err);
+      callback(err);
     });
 };
 module.exports.raw = true;
