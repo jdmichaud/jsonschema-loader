@@ -4,7 +4,7 @@ const loader = require('../');
 const schemaCompiler = require('json-schema-to-typescript');
 const fs = require('fs');
 
-function run(resourcePath, query, _content, expected, done) {
+function run(resourcePath, query, _content, expected, callback) {
   const content = _content || Buffer.from('{}');
   const context = {
     resourcePath: resourcePath,
@@ -12,30 +12,26 @@ function run(resourcePath, query, _content, expected, done) {
     options: {
       context: '/this/is/the/context',
     },
-    async: function async() {
-      return function callback(err, result) {
-        if (err) {
-          done(err);
-        }
-        try {
-          should(result).be.eql(expected);
-          done();
-        } catch (testAssertionError) {
-          done(testAssertionError);
-        }
-      };
-    },
+    async: callback,
   };
 
   const result = loader.call(context, content);
-  return result;
+}
+
+function check(err, result, expected, context, done) {
+  if (err) { done(err); return; }
+  should(result).be.eql(expected);
+  context.resourcePath.slice(context.resourcePath.lastIndexOf('.')).should.be.eql('.ts');
+  done();
 }
 
 function test(expected, resourcePath, query, content, done) {
-  if (typeof done === 'function') {
-    return run(resourcePath, query, content, expected, done);
-  }
-  return run(resourcePath, query, content, expected).should.equal(expected);
+  return run(resourcePath, query, content, expected, function asynch() {
+    const that = this;
+    return function callback(err, result) {
+      check(err, result, expected, that, done);
+    };
+  });
 }
 
 describe('jsonschema-loader', () => {
