@@ -4,7 +4,9 @@
   "description": "A webpack json schema loader",
   "main": "jsonschema-loader.js",
   "scripts": {
-    "test": "npm test"
+    "eslint": "eslint *.js **/*.js",
+    "test": "eslint *.js **/*.js && mocha -R spec",
+    "fix": "eslint --fix *.js **/*.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,14 @@
   },
   "homepage": "https://github.com/jdmichaud/jsonschema-loader#readme",
   "dependencies": {
-    "json-schema-to-typescript": "^5.2.2"
+    "json-schema-to-typescript": "^5.2.2",
+    "loader-utils": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^4.0.1",
+    "should": "^13.1.3"
   }
 }
