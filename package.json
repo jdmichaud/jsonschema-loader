@@ -1,0 +1,29 @@
+{
+  "name": "jsonschema-loader",
+  "version": "0.0.1",
+  "description": "A webpack json schema loader",
+  "main": "jsonschema-loader.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdmichaud/jsonschema-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "json",
+    "schema",
+    "jsonschema",
+    "loader"
+  ],
+  "author": "Jean-Daniel Michaud",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jdmichaud/jsonschema-loader/issues"
+  },
+  "homepage": "https://github.com/jdmichaud/jsonschema-loader#readme",
+  "dependencies": {
+    "json-schema-to-typescript": "^5.2.2"
+  }
+}
